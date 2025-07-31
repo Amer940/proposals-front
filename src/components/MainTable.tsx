@@ -83,7 +83,7 @@ export function MainTable<TData, TValue>({
           onValueChange={(value) => {
             setStatusFilter(value);
             table
-              .getColumn("status")
+              .getColumn("status.name")
               ?.setFilterValue(value === "all" ? undefined : value);
           }}
         >
@@ -93,17 +93,19 @@ export function MainTable<TData, TValue>({
           <SelectContent>
             <SelectItem value="all">All</SelectItem>
             <DropdownMenuSeparator />
-            <SelectItem value="Sent">Sent</SelectItem>
-            <SelectItem value="Denied">Denied</SelectItem>
-            <SelectItem value="Success">Success</SelectItem>
-            <SelectItem value="Ignored">Ignored</SelectItem>
+            <SelectItem value="1">Success</SelectItem>
+            <SelectItem value="2">Denied</SelectItem>
+            <SelectItem value="3">Sent</SelectItem>
+            <SelectItem value="4">Ignored</SelectItem>
           </SelectContent>
         </Select>
         <Input
           placeholder="Filter emails..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+          value={
+            (table.getColumn("partner.email")?.getFilterValue() as string) ?? ""
+          }
           onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
+            table.getColumn("partner.email")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
@@ -127,7 +129,11 @@ export function MainTable<TData, TValue>({
                       column.toggleVisibility(!!value)
                     }
                   >
-                    {column.id}
+                    {column.id == "status.name"
+                      ? "Status"
+                      : column.id == "partner.email"
+                      ? "Email"
+                      : column.id}
                   </DropdownMenuCheckboxItem>
                 );
               })}
