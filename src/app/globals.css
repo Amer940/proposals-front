@@ -127,3 +127,45 @@
     @apply bg-background text-foreground;
   }
 }
+
+@keyframes progress {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
+}
+
+@keyframes appear {
+  from {
+    transform: scale(0);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes disappear {
+  from {
+    transform: scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
+
+.animate-progress {
+  animation: progress 3s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.animate-appear {
+  animation: appear 0.3s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+.animate-disappear {
+  animation: disappear 0.3s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}

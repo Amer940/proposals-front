@@ -14,26 +14,22 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { DataTableColumnHeader } from "@/components/ColumnHeader";
+import { Payment } from "@/types";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
-export type Payment = {
-  id: string;
-  amount: number;
-  demand: number;
-  status: "Sent" | "Denied" | "Success" | "Ignored";
-  email: string;
-};
 
 export const columns: ColumnDef<Payment>[] = [
   {
-    accessorKey: "status",
+    accessorFn: (row) => row.status?.name,
+    id: "status.name",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Status" />
     ),
   },
   {
-    accessorKey: "email",
+    accessorFn: (row) => row.partner?.email,
+    id: "partner.email",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Email" />
     ),
@@ -54,12 +50,12 @@ export const columns: ColumnDef<Payment>[] = [
     },
   },
   {
-    accessorKey: "amount",
+    accessorKey: "agreed",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Agreed Amount" />
     ),
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"));
+      const amount = parseFloat(row.getValue("agreed"));
       const formatted = new Intl.NumberFormat("en-US", {
         style: "currency",
         currency: "USD",

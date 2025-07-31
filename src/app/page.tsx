@@ -1,8 +1,11 @@
 import { MainTable } from "@/components/MainTable";
 import { columns } from "@/columns/HomeColumns";
-import { data } from "@/TempData";
+import { getMainTableData } from "@/actions/home/main-table/main-table-data";
+import CheckNoDataToast from "@/components/CheckNoDataToast";
 
-export default function Home() {
+export default async function Home() {
+  const data = await getMainTableData();
+
   return (
     <div className="font-sans flex flex-col items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 max-w-[1200px] mx-auto">
       <div className="flex flex-col justify-center items-center align-middle gap-3">
@@ -14,6 +17,7 @@ export default function Home() {
           navbar for a more powerful overview.
         </small>
       </div>
+      <CheckNoDataToast data={data} />
       <MainTable columns={columns} data={data} />
     </div>
   );
