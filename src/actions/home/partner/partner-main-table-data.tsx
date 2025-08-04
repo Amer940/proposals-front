@@ -1,19 +1,23 @@
-import { dataError, Payment } from "@/types";
+import { dataError, Partner } from "@/types";
 
-export const getMainTableData = async (
+export const getPartnerTableData = async (
   pageIndex: number,
   pageSize: number,
-  statusFilter: string,
-  emailFilter: string
+  nameFilter: string,
+  emailFilter: string,
+  countryFilter: string,
+  cityFilter: string
 ) => {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/main-table?` +
+      `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/partner?` +
         new URLSearchParams({
           page: String(pageIndex),
           pageSize: String(pageSize),
-          status: statusFilter,
+          name: nameFilter,
           email: emailFilter,
+          city: cityFilter,
+          country: countryFilter,
         }),
       { cache: "no-store" } // avoid caching in Next.js
     );
@@ -25,7 +29,7 @@ export const getMainTableData = async (
     }
 
     return {
-      rows: data.rows as Payment[],
+      rows: data.rows as Partner[],
       total: data.count ?? 0,
     };
   } catch (err) {

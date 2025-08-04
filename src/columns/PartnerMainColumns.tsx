@@ -12,53 +12,28 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { DataTableColumnHeader } from "@/components/ColumnHeader";
 import { Payment } from "@/types";
-import { deleteProposal } from "@/actions/home/main-table/delete-proposal";
+import { deletePartner } from "@/actions/home/partner/delete-partner";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 
 export const columns: ColumnDef<Payment>[] = [
   {
-    accessorFn: (row) => row.status?.name,
-    id: "status.name",
-    header: "Status",
+    accessorKey: "name",
+    header: "Name",
   },
   {
-    accessorFn: (row) => row.partner?.email,
-    id: "partner.email",
+    accessorKey: "email",
     header: "Email",
   },
   {
-    accessorKey: "demand",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Demand" />
-    ),
-    cell: ({ row }) => {
-      const demand = parseFloat(row.getValue("demand"));
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(demand);
-
-      return <div className="font-medium">{formatted}</div>;
-    },
+    accessorKey: "country.name",
+    header: "Country",
   },
   {
-    accessorKey: "agreed",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Agreed Amount" />
-    ),
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("agreed"));
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(amount);
-
-      return <div className="font-medium">{formatted}</div>;
-    },
+    accessorKey: "city",
+    header: "City",
   },
   {
     id: "actions",
@@ -71,22 +46,21 @@ export const columns: ColumnDef<Payment>[] = [
       onSuccess?: (message: string) => void;
       onError?: (message: string) => void;
     }) => {
-      const proposal = row.original;
+      const partner = row.original;
       const handleDelete = async () => {
         try {
-          const result = await deleteProposal(proposal.id);
+          const result = await deletePartner(partner.id);
 
           if (result?.success) {
-            onSuccess?.("Proposal deleted successfully!");
+            onSuccess?.("Partner deleted successfully!");
           } else {
-            onError?.("Error happened. Proposal was not deleted.");
+            onError?.("Error happened. Partner was not deleted.");
           }
         } catch (error) {
           console.log(error);
-          onError?.("Error happened. Proposal was not deleted.");
+          onError?.("Error happened. Partner was not deleted.");
         }
       };
-
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -98,7 +72,7 @@ export const columns: ColumnDef<Payment>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem className="cursor-pointer" onClick={handleDelete}>
-              Delete proposal
+              Delete partner
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem className="cursor-pointer">
