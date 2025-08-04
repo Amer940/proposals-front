@@ -8,7 +8,6 @@ import {
   VisibilityState,
   getCoreRowModel,
   getFilteredRowModel,
-  getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
@@ -40,9 +39,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import CheckNoDataToast from "../CheckNoDataToast";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import { useServerHomeTableData } from "@/functions/getFilteredMainTable";
-import debounce from "lodash.debounce";
 import useDebouncedState from "@/functions/debouncedStateFunction";
 import SuccessToast from "../SuccessToast";
 
