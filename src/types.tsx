@@ -26,3 +26,12 @@ export type Partner = {
     name: string;
   };
 };
+
+export type createPartnerType = {
+  name: string;
+  email: string;
+  country: string;
+  country_id: number | null;
+  city: string;
+  description: string;
+};

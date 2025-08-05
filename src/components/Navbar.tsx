@@ -23,6 +23,10 @@ const links = [
     name: "Create proposal",
     link: "/",
   },
+  {
+    name: "Analytics",
+    link: "/",
+  },
 ];
 
 const Navbar = () => {
