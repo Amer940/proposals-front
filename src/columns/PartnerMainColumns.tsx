@@ -13,7 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Payment } from "@/types";
-import { deletePartner } from "@/actions/home/partner/delete-partner";
+import { deletePartner } from "@/actions/partner/delete-partner";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.

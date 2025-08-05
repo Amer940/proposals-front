@@ -8,7 +8,9 @@ import { Button } from "../ui/button";
 
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import { createPartnerType } from "@/types";
+import { allCountriesSelect, createPartnerType } from "@/types";
+import { createPartner } from "@/actions/partner/create-partner";
+import { useState } from "react";
 
 const validationSchema = Yup.object({
   name: Yup.string()
@@ -24,7 +26,11 @@ const validationSchema = Yup.object({
   description: Yup.string().optional(),
 });
 
-const CreatePartnerForm = () => {
+const CreatePartnerForm = ({
+  allCountries,
+}: {
+  allCountries: allCountriesSelect[];
+}) => {
   const initialValues: createPartnerType = {
     name: "",
     email: "",
@@ -33,6 +39,15 @@ const CreatePartnerForm = () => {
     city: "",
     description: "",
   };
+
+  // State for success toast
+  const [showSuccessToast, setShowSuccessToast] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+
+  const [showErrorToast, setShowErrorToast] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(
+    "Error happened while getting proposals"
+  );
 
   const handleSubmit = async (
     values: createPartnerType,
@@ -43,24 +58,20 @@ const CreatePartnerForm = () => {
   ) => {
     try {
       console.log("Form submitted with values:", values);
+      const res = await createPartner(values);
 
-      // Here you would typically make an API call
-      // const response = await fetch('/api/partners', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(values),
-      // });
-
-      // Show success message
-      // setShowSuccessToast(true);
-      // setSuccessMessage('Partner created successfully!');
-
-      // Reset form after successful submission
-      resetForm();
+      if (res.success) {
+        setShowSuccessToast(true);
+        setSuccessMessage("Partner created successfully!");
+        resetForm();
+      } else {
+        setShowErrorToast(true);
+        setErrorMessage("Failed to create partner. Please try again.");
+      }
     } catch (error) {
-      console.error("Error submitting form:", error);
-      // setShowErrorToast(true);
-      // setErrorMessage('Failed to create partner. Please try again.');
+      console.log("Error submitting form:", error);
+      setShowErrorToast(true);
+      setErrorMessage("Failed to create partner. Please try again.");
     } finally {
       setSubmitting(false);
     }
@@ -68,8 +79,8 @@ const CreatePartnerForm = () => {
 
   return (
     <>
-      {/* <CheckNoDataToast
-        show={showErrorToast || error}
+      <CheckNoDataToast
+        show={showErrorToast}
         message={errorMessage}
         onClose={() => setShowErrorToast(false)}
       />
@@ -77,7 +88,7 @@ const CreatePartnerForm = () => {
         show={showSuccessToast}
         message={successMessage}
         onClose={() => setShowSuccessToast(false)}
-      /> */}
+      />
 
       <Formik
         initialValues={initialValues}
@@ -98,10 +109,7 @@ const CreatePartnerForm = () => {
                 name="email"
               />
               <CustomSelect
-                options={[
-                  { label: "Tset", value: 2 },
-                  { label: "tt", value: 3 },
-                ]}
+                options={allCountries}
                 label={"Select country for partner"}
                 placeholder={"Country"}
                 name="country_id"

@@ -27,6 +27,11 @@ export type Partner = {
   };
 };
 
+export type allCountriesSelect = {
+  label: string;
+  value: string | number;
+};
+
 export type createPartnerType = {
   name: string;
   email: string;

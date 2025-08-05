@@ -1,4 +1,4 @@
-import { getPartnerTableData } from "@/actions/home/partner/partner-main-table-data";
+import { getPartnerTableData } from "@/actions/partner/partner-main-table-data";
 import { useCallback, useEffect, useState } from "react";
 
 export function useServerPartnerTableData({

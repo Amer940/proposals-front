@@ -46,20 +46,27 @@ const CustomSelect = ({
       <Select
         value={String(field.value || "")}
         onValueChange={handleValueChange}
+        disabled={!Array.isArray(options)}
       >
         <SelectTrigger className="w-full cursor-pointer">
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
         <SelectContent>
-          {options?.map((option, idx) => (
-            <SelectItem
-              className="cursor-pointer"
-              key={idx}
-              value={String(option.value)}
-            >
-              {option.label}
+          {Array.isArray(options) ? (
+            options?.map((option, idx) => (
+              <SelectItem
+                className="cursor-pointer"
+                key={idx}
+                value={String(option.value)}
+              >
+                {option.label}
+              </SelectItem>
+            ))
+          ) : (
+            <SelectItem className="cursor-pointer" key={0} value={0}>
+              No data
             </SelectItem>
-          ))}
+          )}
         </SelectContent>
       </Select>
       {meta.touched && meta.error && (

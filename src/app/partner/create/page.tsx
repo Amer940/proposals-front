@@ -1,7 +1,9 @@
+import { getAllCountriesForSelect } from "@/actions/country/get-all-countries-for-select";
 import CreatePartnerForm from "@/components/forms/CreatePartnerForm";
 import Navbar from "@/components/Navbar";
 
 export default async function Partner() {
+  const allCountries = await getAllCountriesForSelect();
   return (
     <>
       <Navbar />
@@ -11,7 +13,7 @@ export default async function Partner() {
             Create partner
           </h3>
         </div>
-        <CreatePartnerForm />
+        <CreatePartnerForm allCountries={allCountries} />
       </div>
     </>
   );
