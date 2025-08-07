@@ -1,16 +1,16 @@
-import { getMainTableData } from "@/actions/home/main-table/main-table-data";
+import { getMainTableData } from "@/actions/proposals/main-table-data";
 import { useCallback, useEffect, useState } from "react";
 
 export function useServerHomeTableData({
   pageIndex,
   pageSize,
   statusFilter,
-  emailFilter,
+  nameFilter,
 }: {
   pageIndex: number;
   pageSize: number;
-  statusFilter: string;
-  emailFilter: string;
+  statusFilter: string | number;
+  nameFilter: string;
 }) {
   const [data, setData] = useState([]);
   const [rowCount, setRowCount] = useState(0);
@@ -25,7 +25,7 @@ export function useServerHomeTableData({
         pageIndex,
         pageSize,
         statusFilter,
-        emailFilter
+        nameFilter
       );
 
       if (gotData.message) {
@@ -43,7 +43,7 @@ export function useServerHomeTableData({
     } finally {
       setLoading(false);
     }
-  }, [pageIndex, pageSize, statusFilter, emailFilter]);
+  }, [pageIndex, pageSize, statusFilter, nameFilter]);
 
   useEffect(() => {
     fetchData();

@@ -1,13 +1,13 @@
 "use server";
 
-import { createPartnerType } from "@/types";
+import { editPartnerType } from "@/types";
 
-export const createPartner = async (body: createPartnerType) => {
+export const editPartner = async (body: editPartnerType) => {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/partner/`,
       {
-        method: "POST",
+        method: "PUT",
         headers: {
           "Content-Type": "application/json", // tell backend it's JSON
         },
@@ -16,7 +16,7 @@ export const createPartner = async (body: createPartnerType) => {
       } // avoid caching in Next.js
     );
 
-    if (res.status !== 201) {
+    if (res.status !== 200) {
       let errorMessage = "Unknown error occurred.";
       const rawBody = await res.text();
 

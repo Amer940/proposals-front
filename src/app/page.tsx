@@ -1,5 +1,4 @@
-import { MainTable } from "@/components/tables/MainTable";
-import { columns } from "@/columns/HomeColumns";
+import ChartsTabs from "@/components/ChartsTabs";
 import Navbar from "@/components/Navbar";
 
 export default async function Home() {
@@ -12,11 +11,11 @@ export default async function Home() {
             Proposal Tracker
           </h3>
           <small className="text-sm leading-none font-medium text-white/50">
-            This is the main &quot;see-all&quot; table. Go to other pages from
-            the navbar for a more powerful overview.
+            This is the main &quot;see-all&quot; table with analytics. Go to
+            other pages from the navbar for more actions.
           </small>
         </div>
-        <MainTable columns={columns} />
+        <ChartsTabs />
       </div>
     </>
   );

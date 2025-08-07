@@ -3,7 +3,7 @@
 export const deleteProposal = async (proposal_id: number) => {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/main-table/${proposal_id}`,
+      `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/proposals/${proposal_id}`,
       {
         method: "DELETE",
         cache: "no-store",

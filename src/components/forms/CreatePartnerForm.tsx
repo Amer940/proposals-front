@@ -8,7 +8,7 @@ import { Button } from "../ui/button";
 
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import { allCountriesSelect, createPartnerType } from "@/types";
+import { createPartnerType, selectFieldType } from "@/types";
 import { createPartner } from "@/actions/partner/create-partner";
 import { useState } from "react";
 
@@ -29,7 +29,12 @@ const validationSchema = Yup.object({
 const CreatePartnerForm = ({
   allCountries,
 }: {
-  allCountries: allCountriesSelect[];
+  //allCountries: selectFieldType[];
+  allCountries: {
+    success: boolean;
+    message?: string;
+    data?: selectFieldType[];
+  };
 }) => {
   const initialValues: createPartnerType = {
     name: "",
@@ -57,7 +62,6 @@ const CreatePartnerForm = ({
     }: { setSubmitting: (option: boolean) => void; resetForm: () => void }
   ) => {
     try {
-      console.log("Form submitted with values:", values);
       const res = await createPartner(values);
 
       if (res.success) {
@@ -109,7 +113,7 @@ const CreatePartnerForm = ({
                 name="email"
               />
               <CustomSelect
-                options={allCountries}
+                options={allCountries.data}
                 label={"Select country for partner"}
                 placeholder={"Country"}
                 name="country_id"

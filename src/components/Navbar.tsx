@@ -12,6 +12,10 @@ const links = [
     link: "/",
   },
   {
+    name: "Proposals",
+    link: "/proposals",
+  },
+  {
     name: "Partners",
     link: "/partner",
   },
@@ -21,10 +25,10 @@ const links = [
   },
   {
     name: "Create proposal",
-    link: "/",
+    link: "/proposals/create",
   },
   {
-    name: "Analytics",
+    name: "Analytics", // OVO TREBA BITI HOME
     link: "/",
   },
 ];

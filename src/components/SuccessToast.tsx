@@ -30,7 +30,7 @@ const SuccessToast = ({ show, message, onClose }: SuccessToastProps) => {
 
   return (
     <div
-      className={`absolute top-[1.5rem] w-[25vw] mx-auto bg-(--background) border-(--input) border rounded-md p-4 ${
+      className={`fixed z-[9999] left-1/2 -translate-x-1/2 top-[1.5rem] w-[25vw] mx-auto bg-(--background) border-(--input) border rounded-md p-4 ${
         isVisible ? "animate-appear" : "animate-disappear"
       }`}
     >

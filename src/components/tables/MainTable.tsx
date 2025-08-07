@@ -19,16 +19,7 @@ import {
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuTrigger,
-  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
-
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 
 import {
   Table,
@@ -43,20 +34,28 @@ import { useCallback, useState } from "react";
 import { useServerHomeTableData } from "@/functions/getFilteredMainTable";
 import useDebouncedState from "@/functions/debouncedStateFunction";
 import SuccessToast from "../SuccessToast";
+import { selectFieldType } from "@/types";
+import CustomSelectNoFormik from "../CustomSelectNoFormik";
+import { Dialog } from "../ui/dialog";
+import EditProposalDialog from "../forms/EditProposalDialog";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
+  allStatuses: { success: boolean; message?: string; data?: selectFieldType[] };
+  allPartners: { success: boolean; message?: string; data?: selectFieldType[] };
 }
 
 export function MainTable<TData, TValue>({
   columns,
+  allStatuses,
+  allPartners,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
 
-  const [statusFilter, setStatusFilter] = useState("");
-  const [emailFilter, setEmailFilter] = useDebouncedState("", 750);
+  const [statusFilter, setStatusFilter] = useState<string | number>("");
+  const [nameFilter, setNameFilter] = useDebouncedState("", 400);
 
   const [pageIndex, setPageIndex] = useState(0);
   const [pageSize, setPageSize] = useState(15);
@@ -64,6 +63,9 @@ export function MainTable<TData, TValue>({
   // State for success toast
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
+
+  const [editingProposal, setEditingProposal] = useState<any>(null);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
 
   const [showErrorToast, setShowErrorToast] = useState(false);
   const [errorMessage, setErrorMessage] = useState(
@@ -74,14 +76,22 @@ export function MainTable<TData, TValue>({
     pageIndex,
     pageSize,
     statusFilter,
-    emailFilter,
+    nameFilter,
   });
+
+  const modifiedStatuses = [
+    { label: "All", value: "all" },
+    ...(allStatuses.data ?? []),
+  ];
 
   const handleSuccess = useCallback(
     (message: string) => {
       setSuccessMessage(message);
       setShowSuccessToast(true);
-      // Refetch data to update the table
+
+      setIsEditDialogOpen(false);
+      setEditingProposal(null);
+
       refetch();
     },
     [refetch]
@@ -108,6 +118,10 @@ export function MainTable<TData, TValue>({
             row,
             onSuccess: handleSuccess,
             onError: handleError,
+            onEdit: (proposal: any) => {
+              setEditingProposal(proposal);
+              setIsEditDialogOpen(true);
+            },
           });
         },
       };
@@ -156,28 +170,18 @@ export function MainTable<TData, TValue>({
       />
       <div className="w-full">
         <div className="flex items-center py-4 gap-4">
-          <Select
+          <CustomSelectNoFormik
+            options={modifiedStatuses}
+            placeholder={"Filter Status"}
             value={statusFilter}
-            onValueChange={(value) => {
-              setStatusFilter(value);
+            onChange={(option) => {
+              setStatusFilter(option.value);
             }}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="Filter Status" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All</SelectItem>
-              <DropdownMenuSeparator />
-              <SelectItem value="1">Success</SelectItem>
-              <SelectItem value="2">Denied</SelectItem>
-              <SelectItem value="3">Sent</SelectItem>
-              <SelectItem value="4">Ignored</SelectItem>
-            </SelectContent>
-          </Select>
+          />
           <Input
-            placeholder="Filter emails..."
+            placeholder="Filter by name..."
             onChange={(event) => {
-              setEmailFilter(event.target.value);
+              setNameFilter(event.target.value);
             }}
             className="max-w-sm"
           />
@@ -203,8 +207,8 @@ export function MainTable<TData, TValue>({
                     >
                       {column.id == "status.name"
                         ? "Status"
-                        : column.id == "partner.email"
-                        ? "Email"
+                        : column.id == "partner.name"
+                        ? "Partner name"
                         : column.id}
                     </DropdownMenuCheckboxItem>
                   );
@@ -281,6 +285,16 @@ export function MainTable<TData, TValue>({
           </Button>
         </div>
       </div>
+      {editingProposal && (
+        <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+          <EditProposalDialog
+            row={editingProposal}
+            allStatuses={allStatuses.data ?? []}
+            allPartners={allPartners.data ?? []}
+            success={handleSuccess}
+          />
+        </Dialog>
+      )}
     </>
   );
 }

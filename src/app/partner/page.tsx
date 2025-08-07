@@ -1,8 +1,9 @@
-import { columns } from "@/columns/PartnerMainColumns";
+import { getAllCountriesForSelect } from "@/actions/country/get-all-countries-for-select";
+import { PartnersTableWrapper } from "@/columns/PartnerMainColumns";
 import Navbar from "@/components/Navbar";
-import { PartnerMainTable } from "@/components/tables/PartnerMainTable";
 
 export default async function Partner() {
+  const allCountries = await getAllCountriesForSelect();
   return (
     <>
       <Navbar />
@@ -15,7 +16,7 @@ export default async function Partner() {
             This is the partners &quot;see-all&quot; table.
           </small>
         </div>
-        <PartnerMainTable columns={columns} />
+        <PartnersTableWrapper allCountries={allCountries} />
       </div>
     </>
   );

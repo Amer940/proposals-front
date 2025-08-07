@@ -1,13 +1,13 @@
 "use server";
 
-import { createPartnerType } from "@/types";
+import { editProposalType } from "@/types";
 
-export const createPartner = async (body: createPartnerType) => {
+export const editProposal = async (body: editProposalType) => {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/partner/`,
+      `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/proposals/`,
       {
-        method: "POST",
+        method: "PUT",
         headers: {
           "Content-Type": "application/json", // tell backend it's JSON
         },
@@ -16,7 +16,7 @@ export const createPartner = async (body: createPartnerType) => {
       } // avoid caching in Next.js
     );
 
-    if (res.status !== 201) {
+    if (res.status !== 200) {
       let errorMessage = "Unknown error occurred.";
       const rawBody = await res.text();
 
@@ -30,9 +30,9 @@ export const createPartner = async (body: createPartnerType) => {
       return { success: false, message: errorMessage };
     }
 
-    return { success: true, message: "Partner created successfully" };
+    return { success: true, message: "Proposal created successfully" };
   } catch (err) {
     console.log(err);
-    return { success: false, message: "Failed to create partner." };
+    return { success: false, message: "Failed to create proposal." };
   }
 };

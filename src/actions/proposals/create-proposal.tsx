@@ -1,11 +1,11 @@
 "use server";
 
-import { createPartnerType } from "@/types";
+import { createProposalType } from "@/types";
 
-export const createPartner = async (body: createPartnerType) => {
+export const createProposal = async (body: createProposalType) => {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/partner/`,
+      `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/proposals/`,
       {
         method: "POST",
         headers: {
@@ -30,9 +30,9 @@ export const createPartner = async (body: createPartnerType) => {
       return { success: false, message: errorMessage };
     }
 
-    return { success: true, message: "Partner created successfully" };
+    return { success: true, message: "Proposal created successfully" };
   } catch (err) {
     console.log(err);
-    return { success: false, message: "Failed to create partner." };
+    return { success: false, message: "Failed to create proposal." };
   }
 };

@@ -12,6 +12,24 @@ export type Payment = {
   };
 };
 
+export type createProposalType = {
+  demand: string | number | null;
+  agreed: string | number | null;
+  partner: string;
+  partner_id: number | null;
+  status: string;
+  status_id: number | null;
+};
+export type editProposalType = {
+  id: number;
+  demand: string | number | null;
+  agreed: string | number | null;
+  partner: string;
+  partner_id: number | null;
+  status: string;
+  status_id: number | null;
+};
+
 export type dataError = {
   message: string;
 };
@@ -27,12 +45,48 @@ export type Partner = {
   };
 };
 
-export type allCountriesSelect = {
+export type selectFieldType = {
   label: string;
   value: string | number;
 };
 
+export type initialValuesProposal = {
+  id: number;
+  demand: number | null;
+  agreed: number;
+  partner: {
+    id: number;
+    name: string;
+  };
+  status: {
+    id: number;
+    name: string;
+  };
+};
+
+export type initialValuesPartner = {
+  id: number;
+  name: string;
+  email: string;
+  city: string;
+  country: {
+    id: number;
+    name: string;
+  };
+  description: string;
+};
+
 export type createPartnerType = {
+  name: string;
+  email: string;
+  country: string;
+  country_id: number | null;
+  city: string;
+  description: string;
+};
+
+export type editPartnerType = {
+  id: number;
   name: string;
   email: string;
   country: string;

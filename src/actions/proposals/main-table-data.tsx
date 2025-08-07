@@ -1,19 +1,21 @@
+"use server";
+
 import { dataError, Payment } from "@/types";
 
 export const getMainTableData = async (
   pageIndex: number,
   pageSize: number,
   statusFilter: string,
-  emailFilter: string
+  nameFilter: string
 ) => {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/main-table?` +
+      `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/proposals?` +
         new URLSearchParams({
           page: String(pageIndex),
           pageSize: String(pageSize),
           status: statusFilter,
-          email: emailFilter,
+          name: nameFilter,
         }),
       { cache: "no-store" } // avoid caching in Next.js
     );

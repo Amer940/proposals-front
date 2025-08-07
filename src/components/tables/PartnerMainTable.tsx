@@ -34,13 +34,18 @@ import { useCallback, useState } from "react";
 import useDebouncedState from "@/functions/debouncedStateFunction";
 import { useServerPartnerTableData } from "@/functions/getFilteredPartnerTable";
 import SuccessToast from "../SuccessToast";
+import { Dialog } from "../ui/dialog";
+import EditPartnerDialog from "../forms/EditPartnerDialog";
+import { selectFieldType } from "@/types";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
+  allCountries?: selectFieldType[];
 }
 
 export function PartnerMainTable<TData, TValue>({
   columns,
+  allCountries,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -57,6 +62,9 @@ export function PartnerMainTable<TData, TValue>({
   // State for success toast
   const [showSuccessToast, setShowSuccessToast] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
+
+  const [editingPartner, setEditingPartner] = useState<any>(null);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
 
   const [showErrorToast, setShowErrorToast] = useState(false);
   const [errorMessage, setErrorMessage] = useState(
@@ -78,7 +86,10 @@ export function PartnerMainTable<TData, TValue>({
     (message: string) => {
       setSuccessMessage(message);
       setShowSuccessToast(true);
-      // Refetch data to update the table
+
+      setIsEditDialogOpen(false);
+      setEditingPartner(null);
+
       refetch();
     },
     [refetch]
@@ -105,6 +116,10 @@ export function PartnerMainTable<TData, TValue>({
             row,
             onSuccess: handleSuccess,
             onError: handleError,
+            onEdit: (partner: any) => {
+              setEditingPartner(partner);
+              setIsEditDialogOpen(true);
+            },
           });
         },
       };
@@ -201,11 +216,7 @@ export function PartnerMainTable<TData, TValue>({
                         column.toggleVisibility(!!value)
                       }
                     >
-                      {column.id == "status.name"
-                        ? "Status"
-                        : column.id == "partner.email"
-                        ? "Email"
-                        : column.id}
+                      {column.id == "country.name" ? "Country" : column.id}
                     </DropdownMenuCheckboxItem>
                   );
                 })}
@@ -281,6 +292,15 @@ export function PartnerMainTable<TData, TValue>({
           </Button>
         </div>
       </div>
+      {editingPartner && (
+        <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+          <EditPartnerDialog
+            row={editingPartner}
+            allCountries={allCountries ?? []}
+            success={handleSuccess}
+          />
+        </Dialog>
+      )}
     </>
   );
 }
