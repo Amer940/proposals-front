@@ -1,7 +1,12 @@
+import { getMoneyMonthlyAnalyticsData } from "@/actions/analytics/get-money-monthly";
+import { getSentProposalsAnalyticsData } from "@/actions/analytics/get-sent-proposals";
 import ChartsTabs from "@/components/ChartsTabs";
 import Navbar from "@/components/Navbar";
 
 export default async function Home() {
+  const moneyMonthly = await getMoneyMonthlyAnalyticsData();
+  const proposalsSent = await getSentProposalsAnalyticsData();
+
   return (
     <>
       <Navbar />
@@ -15,7 +20,7 @@ export default async function Home() {
             other pages from the navbar for more actions.
           </small>
         </div>
-        <ChartsTabs />
+        <ChartsTabs moneyMonthly={moneyMonthly} proposalsSent={proposalsSent} />
       </div>
     </>
   );

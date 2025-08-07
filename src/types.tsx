@@ -76,6 +76,31 @@ export type initialValuesPartner = {
   description: string;
 };
 
+export type monthlyAnalytics = {
+  date: string;
+  months: number;
+};
+
+export type yearlyAnalytics = {
+  date: string;
+  year: number;
+};
+
+export type sentAnalytics = {
+  date: string;
+  sent: number;
+};
+
+export type acceptedAnalytics = {
+  date: string;
+  accepted: number;
+};
+
+export type deniedAnalytics = {
+  date: string;
+  denied: number;
+};
+
 export type createPartnerType = {
   name: string;
   email: string;
