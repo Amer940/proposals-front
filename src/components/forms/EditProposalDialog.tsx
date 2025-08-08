@@ -24,6 +24,7 @@ import { editProposal } from "@/actions/proposals/edit-proposal";
 const validationSchema = Yup.object({
   demand: Yup.number().required("Demand amount is required"),
   agreed: Yup.number().required("Agreed amount is required"),
+  paid: Yup.number().required("Paid amount is required"),
   partner_id: Yup.number().required("Partner is required"),
   status_id: Yup.number().required("Status is required"),
 });
@@ -43,6 +44,7 @@ const EditProposalDialog = ({
     id: row.id ?? null,
     demand: row.demand ?? null,
     agreed: row.agreed ?? null,
+    paid: row.paid ?? null,
     partner: row.partner?.name ?? "",
     partner_id: row.partner?.id ?? null,
     status: row.status?.name ?? "",
@@ -110,6 +112,12 @@ const EditProposalDialog = ({
                   label="Agreed price $"
                   placeholder="70"
                   name="agreed"
+                  type="number"
+                />
+                <CustomInput
+                  label="Paid price $"
+                  placeholder="15"
+                  name="paid"
                   type="number"
                 />
                 <CustomSelect

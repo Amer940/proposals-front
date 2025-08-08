@@ -27,10 +27,6 @@ const links = [
     name: "Create proposal",
     link: "/proposals/create",
   },
-  {
-    name: "Analytics", // OVO TREBA BITI HOME
-    link: "/",
-  },
 ];
 
 const Navbar = () => {

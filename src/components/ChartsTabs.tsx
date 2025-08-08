@@ -1,23 +1,15 @@
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MoneyChart } from "./charts/MoneyChart";
-import { monthlyAnalytics, sentAnalytics } from "@/types";
+import { monthlyAnalytics, monthlyPartner, proposalsAnalytics } from "@/types";
 import { getMoneyYearlyAnalyticsData } from "@/actions/analytics/get-money-yearly";
 import { ProposalsChart } from "./charts/ProposalsChart";
+import { PartnersChart } from "./charts/PartnersChart";
+import { getPartnerYearlyAnalyticsData } from "@/actions/analytics/get-partner-yearly";
 
 const ChartsTabs = async ({
   moneyMonthly,
   proposalsSent,
+  partnerMonthly,
 }: {
   moneyMonthly: {
     success: boolean;
@@ -27,13 +19,20 @@ const ChartsTabs = async ({
   proposalsSent: {
     success: boolean;
     message?: string;
-    data?: sentAnalytics[];
+    data?: proposalsAnalytics[];
+  };
+  partnerMonthly: {
+    success: boolean;
+    message?: string;
+    data?: monthlyPartner[];
   };
 }) => {
   const moneyYearly = await getMoneyYearlyAnalyticsData();
+  const partnerYearly = await getPartnerYearlyAnalyticsData();
+
   return (
     <div className="flex w-full flex-col gap-6">
-      <Tabs defaultValue="proposals">
+      <Tabs defaultValue="money">
         <TabsList>
           <TabsTrigger value="money">Money</TabsTrigger>
           <TabsTrigger value="proposals">Proposals</TabsTrigger>
@@ -49,28 +48,10 @@ const ChartsTabs = async ({
           <ProposalsChart chartData={proposalsSent.data ?? []} />
         </TabsContent>
         <TabsContent value="partners">
-          <Card>
-            <CardHeader>
-              <CardTitle>Password</CardTitle>
-              <CardDescription>
-                Change your password here. After saving, you&apos;ll be logged
-                out.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="grid gap-6">
-              <div className="grid gap-3">
-                <Label htmlFor="tabs-demo-current">Current password</Label>
-                <Input id="tabs-demo-current" type="password" />
-              </div>
-              <div className="grid gap-3">
-                <Label htmlFor="tabs-demo-new">New password</Label>
-                <Input id="tabs-demo-new" type="password" />
-              </div>
-            </CardContent>
-            <CardFooter>
-              <Button>Save password</Button>
-            </CardFooter>
-          </Card>
+          <PartnersChart
+            chartData={partnerMonthly.data ?? []}
+            chartDataYearly={partnerYearly.data ?? []}
+          />
         </TabsContent>
       </Tabs>
     </div>

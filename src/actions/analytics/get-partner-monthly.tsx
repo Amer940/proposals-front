@@ -1,9 +1,9 @@
 "use server";
 
-export const getSentProposalsAnalyticsData = async () => {
+export const getPartnerMonthlyAnalyticsData = async () => {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/analytics/sent`,
+      `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/analytics/partner-monthly`,
       { cache: "no-store" } // avoid caching in Next.js
     );
 
@@ -12,7 +12,7 @@ export const getSentProposalsAnalyticsData = async () => {
     if (res.status != 200) {
       return {
         success: false,
-        message: "Failed fetching yearly money analytics data",
+        message: "Failed fetching monthly partner analytics data",
       };
     }
 
@@ -21,7 +21,7 @@ export const getSentProposalsAnalyticsData = async () => {
     console.log(err);
     return {
       success: false,
-      message: "Failed fetching yearly money analytics data",
+      message: "Failed fetching monthly partner analytics data",
     };
   }
 };

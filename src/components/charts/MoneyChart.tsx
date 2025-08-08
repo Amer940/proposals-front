@@ -60,7 +60,7 @@ export function MoneyChart({
           <CardDescription>
             {activeChart === "months"
               ? "Showing total money earned for the last 3 months"
-              : "Showing total money earned in each month of the last year."}
+              : "Showing total money earned ever."}
           </CardDescription>
         </div>
         <div className="flex">
@@ -70,7 +70,7 @@ export function MoneyChart({
               <button
                 key={chart}
                 data-active={activeChart === chart}
-                className="data-[active=true]:bg-muted/50 relative z-30 flex flex-1 flex-col justify-center gap-1 border-t px-6 py-4 text-left even:border-l sm:border-t-0 sm:border-l sm:px-8 sm:py-6 cursor-pointer"
+                className="data-[active=true]:bg-muted/50 relative z-30 flex flex-col justify-center gap-1 border-t px-6 py-4 text-left even:border-l sm:border-t-0 sm:border-l sm:px-8 sm:py-6 cursor-pointer"
                 onClick={() => setActiveChart(chart)}
               >
                 <span className="text-muted-foreground text-xs">

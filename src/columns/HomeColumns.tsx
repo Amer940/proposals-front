@@ -89,6 +89,21 @@ function createColumns(): ColumnDef<Payment>[] {
       },
     },
     {
+      accessorKey: "paid",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="Paid Amount" />
+      ),
+      cell: ({ row }) => {
+        const amount = parseFloat(row.getValue("paid"));
+        const formatted = new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: "USD",
+        }).format(amount);
+
+        return <div className="font-medium">{formatted}</div>;
+      },
+    },
+    {
       id: "actions",
       cell: ({
         row,

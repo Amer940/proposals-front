@@ -16,54 +16,44 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { proposalsAnalytics } from "@/types";
+import { monthlyPartner, yearlyPartner } from "@/types";
 
 export const description = "An interactive bar chart";
 
 const chartConfig = {
   views: {
-    label: "Proposals",
+    label: "Partners created",
   },
-  sent: {
-    label: "Sent",
+  created: {
+    label: "3 Months",
     color: "var(--chart-5)",
   },
-  accepted: {
-    label: "Accepted",
+  createdYearly: {
+    label: "Year",
     color: "var(--chart-1)",
-  },
-  denied: {
-    label: "Denied",
-    color: "var(--chart-4)",
-  },
-  ignored: {
-    label: "Ignored",
-    color: "var(--chart-2)",
   },
 } satisfies ChartConfig;
 
-export function ProposalsChart({
+export function PartnersChart({
   chartData,
+  chartDataYearly,
 }: {
-  chartData: proposalsAnalytics[];
+  chartData: monthlyPartner[];
+  chartDataYearly: yearlyPartner[];
 }) {
   const [activeChart, setActiveChart] =
-    React.useState<keyof typeof chartConfig>("sent");
+    React.useState<keyof typeof chartConfig>("created");
 
   const total = React.useMemo(
     () => ({
-      sent: chartData.reduce((acc, curr) => acc + +curr.sent, 0),
-      accepted: chartData.reduce((acc, curr) => acc + +curr.accepted, 0),
-      denied: chartData.reduce((acc, curr) => acc + +curr.denied, 0),
-      ignored: chartData.reduce((acc, curr) => acc + +curr.ignored, 0),
+      created: chartData.reduce((acc, curr) => acc + +curr.created, 0),
+      createdYearly: chartDataYearly.reduce(
+        (acc, curr) => acc + +curr.createdYearly,
+        0
+      ),
     }),
     []
   );
-
-  const deniedChart = chartData.filter((item) => item.denied !== 0);
-  const acceptedChart = chartData.filter((item) => item.accepted !== 0);
-  const sentChart = chartData.filter((item) => item.sent !== 0);
-  const ignoredChart = chartData.filter((item) => item.ignored !== 0);
 
   return (
     <Card className="py-0">
@@ -71,23 +61,19 @@ export function ProposalsChart({
         <div className="flex flex-1 flex-col justify-center gap-1 px-6 pt-4 pb-3 sm:!py-0">
           <CardTitle>Bar Chart - Interactive</CardTitle>
           <CardDescription>
-            {activeChart === "sent"
-              ? "Showing total proposals sent ever."
-              : activeChart === "accepted"
-              ? "Showing total proposals accepted ever."
-              : activeChart === "denied"
-              ? "Showing total proposals denied ever."
-              : "Showing total proposals ignored ever."}
+            {activeChart === "created"
+              ? "Showing total partners created for the last 3 months"
+              : "Showing total partners created ever."}
           </CardDescription>
         </div>
         <div className="flex">
-          {["sent", "accepted", "denied", "ignored"].map((key) => {
+          {["created", "createdYearly"].map((key) => {
             const chart = key as keyof typeof chartConfig;
             return (
               <button
                 key={chart}
                 data-active={activeChart === chart}
-                className="data-[active=true]:bg-muted/50 relative z-30 flex  flex-col justify-center gap-1 border-t px-6 py-4 text-left even:border-l sm:border-t-0 sm:border-l sm:px-8 sm:py-6 cursor-pointer"
+                className="data-[active=true]:bg-muted/50 relative z-30 flex flex-col justify-center gap-1 border-t px-6 py-4 text-left even:border-l sm:border-t-0 sm:border-l sm:px-8 sm:py-6 cursor-pointer"
                 onClick={() => setActiveChart(chart)}
               >
                 <span className="text-muted-foreground text-xs">
@@ -108,15 +94,7 @@ export function ProposalsChart({
         >
           <BarChart
             accessibilityLayer
-            data={
-              activeChart === "sent"
-                ? sentChart
-                : activeChart === "accepted"
-                ? acceptedChart
-                : activeChart === "denied"
-                ? deniedChart
-                : ignoredChart
-            }
+            data={activeChart === "created" ? chartData : chartDataYearly}
             margin={{
               left: 12,
               right: 12,
@@ -146,7 +124,7 @@ export function ProposalsChart({
                     return new Date(value).toLocaleDateString("en-US", {
                       month: "short",
                       day: "numeric",
-                      accepted: "numeric",
+                      year: "numeric",
                     });
                   }}
                 />
