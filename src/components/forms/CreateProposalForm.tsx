@@ -14,6 +14,7 @@ import { createProposal } from "@/actions/proposals/create-proposal";
 const validationSchema = Yup.object({
   demand: Yup.number().required("Demand amount is required"),
   agreed: Yup.number().required("Agreed amount is required"),
+  paid: Yup.number().required("Paid amount is required"),
   partner_id: Yup.number().required("Partner is required"),
   status_id: Yup.number().required("Status is required"),
 });
@@ -28,6 +29,7 @@ const CreateProposalForm = ({
   const initialValues: createProposalType = {
     demand: null,
     agreed: null,
+    paid: null,
     partner: "",
     partner_id: null,
     status: "",
@@ -73,7 +75,7 @@ const CreateProposalForm = ({
   return (
     <>
       <CheckNoDataToast
-        show={showErrorToast || !allPartners?.success || !allStatuses?.success}
+        show={showErrorToast}
         message={errorMessage}
         onClose={() => setShowErrorToast(false)}
       />
@@ -101,6 +103,12 @@ const CreateProposalForm = ({
                 label="Agreed price $"
                 placeholder="70"
                 name="agreed"
+                type="number"
+              />
+              <CustomInput
+                label="Paid price $"
+                placeholder="70"
+                name="paid"
                 type="number"
               />
               <CustomSelect

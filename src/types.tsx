@@ -15,15 +15,18 @@ export type Payment = {
 export type createProposalType = {
   demand: string | number | null;
   agreed: string | number | null;
+  paid: string | number | null;
   partner: string;
   partner_id: number | null;
   status: string;
   status_id: number | null;
 };
+
 export type editProposalType = {
   id: number;
   demand: string | number | null;
   agreed: string | number | null;
+  paid: string | number | null;
   partner: string;
   partner_id: number | null;
   status: string;
@@ -50,10 +53,21 @@ export type selectFieldType = {
   value: string | number;
 };
 
+export type monthlyPartner = {
+  date: string;
+  created: number;
+};
+
+export type yearlyPartner = {
+  date: string;
+  createdYearly: number;
+};
+
 export type initialValuesProposal = {
   id: number;
   demand: number | null;
   agreed: number;
+  paid: number;
   partner: {
     id: number;
     name: string;
@@ -74,6 +88,24 @@ export type initialValuesPartner = {
     name: string;
   };
   description: string;
+};
+
+export type monthlyAnalytics = {
+  date: string;
+  months: number;
+};
+
+export type yearlyAnalytics = {
+  date: string;
+  year: number;
+};
+
+export type proposalsAnalytics = {
+  date: string;
+  sent: number;
+  accepted: number;
+  denied: number;
+  ignored: number;
 };
 
 export type createPartnerType = {
