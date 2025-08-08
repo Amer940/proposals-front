@@ -2,17 +2,13 @@
 
 import { useEffect, useState } from "react";
 
-type CheckNoDataToastProps = {
+type SuccessToastProps = {
   show: boolean;
   message: string;
   onClose: () => void;
 };
 
-const CheckNoDataToast = ({
-  show,
-  message,
-  onClose,
-}: CheckNoDataToastProps) => {
+const SuccessToast = ({ show, message, onClose }: SuccessToastProps) => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -39,14 +35,14 @@ const CheckNoDataToast = ({
       }`}
     >
       <div className="flex items-center gap-1 flex-col">
-        <span className="text-red-500 font-semibold text-2xl text-center w-full tracking-tight">
-          Alert!
+        <span className="text-green-500 font-semibold text-2xl text-center w-full tracking-tight">
+          Success!
         </span>
         <span className="text-white/50 text-sm">{message}</span>
-        <div className="absolute bottom-0 left-0 h-1 bg-red-500 animate-progress" />
+        <div className="absolute bottom-0 left-0 h-1 bg-green-500 animate-progress" />
       </div>
     </div>
   );
 };
 
-export default CheckNoDataToast;
+export default SuccessToast;

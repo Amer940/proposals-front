@@ -12,38 +12,85 @@ export type Payment = {
   };
 };
 
+export type createProposalType = {
+  demand: string | number | null;
+  agreed: string | number | null;
+  partner: string;
+  partner_id: number | null;
+  status: string;
+  status_id: number | null;
+};
+export type editProposalType = {
+  id: number;
+  demand: string | number | null;
+  agreed: string | number | null;
+  partner: string;
+  partner_id: number | null;
+  status: string;
+  status_id: number | null;
+};
+
 export type dataError = {
   message: string;
 };
 
-// export const data: Payment[] = [
-//   {
-//     id: "728ed52f",
-//     amount: 100,
-//     demand: 150,
-//     status: "Sent",
-//     email: "m@example.com",
-//   },
-//   {
-//     id: "489e1d42",
-//     amount: 0,
-//     demand: 80,
-//     status: "Denied",
-//     email: "test@gmail.com",
-//   },
-//   {
-//     id: "489e1d42",
-//     amount: 70,
-//     demand: 70,
-//     status: "Success",
-//     email: "ananas@gmail.com",
-//   },
-//   {
-//     id: "489e1d42",
-//     amount: 0,
-//     demand: 300,
-//     status: "Ignored",
-//     email: "banana@gmail.com",
-//   },
-//   // ...
-// ];
+export type Partner = {
+  id: number;
+  name: string;
+  email: string;
+  city: string;
+  country: {
+    id: number;
+    name: string;
+  };
+};
+
+export type selectFieldType = {
+  label: string;
+  value: string | number;
+};
+
+export type initialValuesProposal = {
+  id: number;
+  demand: number | null;
+  agreed: number;
+  partner: {
+    id: number;
+    name: string;
+  };
+  status: {
+    id: number;
+    name: string;
+  };
+};
+
+export type initialValuesPartner = {
+  id: number;
+  name: string;
+  email: string;
+  city: string;
+  country: {
+    id: number;
+    name: string;
+  };
+  description: string;
+};
+
+export type createPartnerType = {
+  name: string;
+  email: string;
+  country: string;
+  country_id: number | null;
+  city: string;
+  description: string;
+};
+
+export type editPartnerType = {
+  id: number;
+  name: string;
+  email: string;
+  country: string;
+  country_id: number | null;
+  city: string;
+  description: string;
+};
