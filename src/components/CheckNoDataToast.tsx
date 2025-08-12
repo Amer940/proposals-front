@@ -37,6 +37,7 @@ const CheckNoDataToast = ({
       className={`fixed z-[9999] left-1/2 -translate-x-1/2 top-[1.5rem] w-[25vw] mx-auto bg-(--background) border-(--input) border rounded-md p-4 ${
         isVisible ? "animate-appear" : "animate-disappear"
       }`}
+      onClick={() => setIsVisible(false)}
     >
       <div className="flex items-center gap-1 flex-col">
         <span className="text-red-500 font-semibold text-2xl text-center w-full tracking-tight">
